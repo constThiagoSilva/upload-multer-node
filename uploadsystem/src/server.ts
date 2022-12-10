@@ -1,12 +1,10 @@
-import http from 'http'
+import expres, { response } from "express";
+import { upload } from "./multer";
 
-const server = http.createServer((request, response) => {
-    if (request.url === '/') {
-        response.write('Hello World')
+const app = expres();
 
-        response.end()
-    }
+app.post("/upload", upload.single("file"), (request, response) => {
+  return response.json(request.file?.filename);
+});
 
-})
-
-server.listen(8090 || process.env.PORT, () => console.log('Server running'))
+app.listen(8090 || process.env.PORT, () => console.log("Server running"));
